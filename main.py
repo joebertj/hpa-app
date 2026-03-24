@@ -14,12 +14,40 @@ app.mount("/metrics", metrics_app)
 simulated_user_load = Gauge('simulated_user_load', 'Simulated user load using Poisson distribution')
 
 async def update_metrics():
+    load = 1
+    direction = 1  # 1 for up, -1 for down
+    start_time = time.time()
+    
     while True:
-        # Generate a simple value between 1 and 9 for predictable scaling
-        load = np.random.randint(1, 10)
+        elapsed = time.time() - start_time
+        
+        if direction == 1:
+            # Phase: Up (approx 1 min)
+            if elapsed >= 60:
+                direction = -1
+                start_time = time.time()
+                await asyncio.sleep(5)
+                continue
+            
+            # Step every 15s (sampled more frequently here to simulate the trend)
+            load += np.random.randint(10, 10000)
+            load = min(100000, load)
+            await asyncio.sleep(15)
+        else:
+            # Phase: Down (cycle back)
+            if load <= 1:
+                direction = 1
+                start_time = time.time()
+                await asyncio.sleep(5)
+                continue
+            
+            # Step every 5s
+            load -= np.random.randint(10, 10000)
+            load = max(1, load)
+            await asyncio.sleep(5)
+            
         simulated_user_load.set(load)
-        print(f"simulated_user_load: {load}", flush=True)
-        await asyncio.sleep(5)
+        print(f"simulated_user_load: {int(load)}", flush=True)
         
 @app.on_event("startup")
 async def startup_event():
