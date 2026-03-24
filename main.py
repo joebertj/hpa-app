@@ -15,12 +15,8 @@ simulated_user_load = Gauge('simulated_user_load', 'Simulated user load using Po
 
 async def update_metrics():
     while True:
-        # Oscillate the mean (lambda) between 2 and 18 over a ~5 minute period
-        current_time = time.time()
-        dynamic_lam = 10 + 8 * math.sin(current_time / 50.0)
-        
-        # Generate Poisson distribution around the oscillating mean
-        load = np.random.poisson(lam=max(1, dynamic_lam))
+        # Generate a simple value between 1 and 9 for predictable scaling
+        load = np.random.randint(1, 10)
         simulated_user_load.set(load)
         print(f"simulated_user_load: {load}")
         await asyncio.sleep(5)
