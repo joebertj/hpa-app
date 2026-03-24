@@ -18,7 +18,7 @@ async def update_metrics():
         # Generate a simple value between 1 and 9 for predictable scaling
         load = np.random.randint(1, 10)
         simulated_user_load.set(load)
-        print(f"simulated_user_load: {load}")
+        print(f"simulated_user_load: {load}", flush=True)
         await asyncio.sleep(5)
         
 @app.on_event("startup")
