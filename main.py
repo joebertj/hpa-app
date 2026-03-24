@@ -20,7 +20,6 @@ async def update_metrics():
     
     while True:
         elapsed = time.time() - start_time
-        multiplier = np.random.randint(1, 1)
         
         if direction == 1:
             # Phase: Scale Up (3 mins)
@@ -31,7 +30,7 @@ async def update_metrics():
                 continue
             
             # Step every 5s
-            step = np.random.randint(1, 10001) * multiplier
+            step = np.random.randint(1, 10001)
             load += step
             await asyncio.sleep(5)
         else:
