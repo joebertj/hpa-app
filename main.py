@@ -20,11 +20,11 @@ async def update_metrics():
     
     while True:
         elapsed = time.time() - start_time
-        multiplier = np.random.randint(2, 5) # random 2-4
+        multiplier = np.random.randint(1, 4) # random 1-3
         
         if direction == 1:
-            # Phase: Scale Up (2 mins)
-            if elapsed >= 120:
+            # Phase: Scale Up (3 mins)
+            if elapsed >= 180:
                 direction = -1
                 start_time = time.time()
                 await asyncio.sleep(5)
@@ -36,8 +36,8 @@ async def update_metrics():
             load = min(100000, load)
             await asyncio.sleep(5)
         else:
-            # Phase: Scale Down (1 min)
-            if elapsed >= 60:
+            # Phase: Scale Down (2 mins)
+            if elapsed >= 120:
                 direction = 1
                 start_time = time.time()
                 await asyncio.sleep(2)
