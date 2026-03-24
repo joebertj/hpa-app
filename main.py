@@ -22,11 +22,17 @@ async def update_metrics():
         # Generate Poisson distribution around the oscillating mean
         load = np.random.poisson(lam=max(1, dynamic_lam))
         simulated_user_load.set(load)
+        print(f"simulated_user_load: {load}")
         await asyncio.sleep(5)
         
 @app.on_event("startup")
 async def startup_event():
     asyncio.create_task(update_metrics())
+
+@app.get("/value")
+def get_value():
+    # Helper to get the current value without parsing Prometheus format
+    return float(simulated_user_load._value.get())
 
 @app.get("/")
 def read_root():
