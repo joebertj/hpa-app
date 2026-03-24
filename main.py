@@ -42,7 +42,7 @@ async def update_metrics():
                 continue
             
             # Step every 1s
-            step = np.random.randint(1, 10001)
+            step = np.random.randint(3001, 30001)
             load -= step
             load = max(1, load)
             await asyncio.sleep(1)
