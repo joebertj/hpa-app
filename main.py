@@ -44,9 +44,9 @@ async def update_metrics():
                 continue
             
             # Step every 1s
-            step = np.random.randint(3001, 30001)
-            load -= step
-            load = max(1, load)
+            if load > 1551:
+                step = np.random.randint(3001, 30001)
+                load -= step
             await asyncio.sleep(1)
             
         simulated_user_load.set(load)
