@@ -20,7 +20,7 @@ async def update_metrics():
     
     while True:
         elapsed = time.time() - start_time
-        multiplier = np.random.randint(1, 4) # random 1-3
+        multiplier = np.random.randint(1, 1)
         
         if direction == 1:
             # Phase: Scale Up (3 mins)
