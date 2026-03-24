@@ -29,9 +29,9 @@ async def update_metrics():
                 await asyncio.sleep(3)
                 continue
             
-            # Step every 3s until we cross 250,001
+            # Step every 3s until we cross 155,001
             # This ensures we always exceed the 1.1x HPA tolerance
-            if load < 250001:
+            if load < 155001:
                 step = np.random.randint(1, 10001)
                 load += step
             await asyncio.sleep(3)
