@@ -20,31 +20,34 @@ async def update_metrics():
     
     while True:
         elapsed = time.time() - start_time
+        multiplier = np.random.randint(2, 6) # random 2-5
         
         if direction == 1:
-            # Phase: Up (approx 1 min)
-            if elapsed >= 60:
+            # Phase: Scale Up (5 mins)
+            if elapsed >= 300:
                 direction = -1
                 start_time = time.time()
                 await asyncio.sleep(5)
                 continue
             
-            # Step every 15s (sampled more frequently here to simulate the trend)
-            load += np.random.randint(10, 10000)
+            # Step every 5s
+            step = np.random.randint(1, 10001) * multiplier
+            load += step
             load = min(100000, load)
-            await asyncio.sleep(15)
+            await asyncio.sleep(5)
         else:
-            # Phase: Down (cycle back)
-            if load <= 1:
+            # Phase: Scale Down (1 min)
+            if elapsed >= 60:
                 direction = 1
                 start_time = time.time()
-                await asyncio.sleep(5)
+                await asyncio.sleep(2)
                 continue
             
-            # Step every 5s
-            load -= np.random.randint(10, 10000)
+            # Step every 2s
+            step = np.random.randint(1, 10001) * multiplier
+            load -= step
             load = max(1, load)
-            await asyncio.sleep(5)
+            await asyncio.sleep(2)
             
         simulated_user_load.set(load)
         print(f"simulated_user_load: {int(load)}", flush=True)
