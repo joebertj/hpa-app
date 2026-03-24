@@ -26,26 +26,26 @@ async def update_metrics():
             if elapsed >= 180:
                 direction = -1
                 start_time = time.time()
-                await asyncio.sleep(5)
+                await asyncio.sleep(3)
                 continue
             
-            # Step every 5s
+            # Step every 3s
             step = np.random.randint(1, 10001)
             load += step
-            await asyncio.sleep(5)
+            await asyncio.sleep(3)
         else:
-            # Phase: Scale Down (2 mins)
-            if elapsed >= 120:
+            # Phase: Scale Down (1 min)
+            if elapsed >= 60:
                 direction = 1
                 start_time = time.time()
-                await asyncio.sleep(2)
+                await asyncio.sleep(1)
                 continue
             
-            # Step every 2s
+            # Step every 1s
             step = np.random.randint(1, 10001)
             load -= step
             load = max(1, load)
-            await asyncio.sleep(2)
+            await asyncio.sleep(1)
             
         simulated_user_load.set(load)
         print(f"simulated_user_load: {int(load)}", flush=True)
