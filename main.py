@@ -32,6 +32,7 @@ async def update_metrics():
             # Step every 3s
             step = np.random.randint(1, 10001)
             load += step
+            load = min(100000, load)
             await asyncio.sleep(3)
         else:
             # Phase: Scale Down (1 min)
