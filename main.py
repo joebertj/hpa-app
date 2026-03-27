@@ -22,34 +22,34 @@ async def update_metrics():
         elapsed = time.time() - start_time
         
         if direction == 1:
-            # Phase: Scale Up (60 secs)
-            if elapsed >= 60:
+            # Phase: Scale Up (120 secs)
+            if elapsed >= 120:
                 direction = -1
                 start_time = time.time()
-                await asyncio.sleep(1)
+                await asyncio.sleep(5)
                 continue
             
-            # Step every 1s until we cross 111,000
+            # Step every 5s until we cross 111,000
             # This ensures we always exceed the 1.1x HPA tolerance
             if load < 111000:
                 step = np.random.randint(1, 10001)
                 load += step
-            await asyncio.sleep(1)
+            await asyncio.sleep(5)
         else:
-            # Phase: Scale Down (30 secs)
-            if elapsed >= 30:
+            # Phase: Scale Down (60 secs)
+            if elapsed >= 60:
                 direction = 1
                 start_time = time.time()
-                await asyncio.sleep(1)
+                await asyncio.sleep(5)
                 continue
             
             # Step every 1s until we hit the floor (1110)
             if load > 1110:
-                step = np.random.randint(5001, 50001)
+                step = np.random.randint(1, 10001)
                 load -= step
                 if load < 1:
                     load += step
-            await asyncio.sleep(1)
+            await asyncio.sleep(5)
             
         simulated_user_load.set(load)
         print(f"simulated_user_load: {int(load)}", flush=True)
