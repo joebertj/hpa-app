@@ -22,8 +22,8 @@ async def update_metrics():
         elapsed = time.time() - start_time
         
         if direction == 1:
-            # Phase: Scale Up (120 secs)
-            if elapsed >= 120:
+            # Phase: Scale Up (180 secs)
+            if elapsed >= 180:
                 direction = -1
                 start_time = time.time()
                 await asyncio.sleep(5)
