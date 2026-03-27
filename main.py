@@ -26,7 +26,7 @@ async def update_metrics():
             if elapsed >= 180:
                 direction = -1
                 start_time = time.time()
-                await asyncio.sleep(5)
+                await asyncio.sleep(2)
                 continue
             
             # Step every 5s until we cross 111,000
@@ -34,13 +34,13 @@ async def update_metrics():
             if load < 111000:
                 step = np.random.randint(1, 10001)
                 load += step
-            await asyncio.sleep(5)
+            await asyncio.sleep(2)
         else:
             # Phase: Scale Down (60 secs)
             if elapsed >= 60:
                 direction = 1
                 start_time = time.time()
-                await asyncio.sleep(5)
+                await asyncio.sleep(2)
                 continue
             
             # Step every 1s until we hit the floor (1110)
@@ -49,7 +49,7 @@ async def update_metrics():
                 load -= step
                 if load < 1:
                     load += step
-            await asyncio.sleep(5)
+            await asyncio.sleep(2)
             
         simulated_user_load.set(load)
         print(f"simulated_user_load: {int(load)}", flush=True)
