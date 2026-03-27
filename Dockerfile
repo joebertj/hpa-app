@@ -6,8 +6,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY main.py .
-#RUN useradd -r -u 1000 appuser
-#USER appuser
+RUN useradd -r -u 1000 appuser
+USER appuser
 EXPOSE 8000
 
 CMD ["python", "main.py"]
